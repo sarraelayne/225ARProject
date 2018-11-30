@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!--<link href="AR.css" rel="stylesheet" type="text/css">-->
+    <title>Welcome to my REL 225 Project</title>
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Acme', sans-serif;
+            font-size: 24px;
+        }
+        a-scene{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .instructions{
+            position: fixed;
+            display: inline-block;
+            width: 80%;
+            height: 80%;
+            background-color: rgba(44,61,77,.9);
+            box-shadow: inset 0px 0px 0px 10px rgba(147,175,199,1);
+            color: white;
+            left: 10%;
+            top: 4%;
+            text-align: center;
+            padding-top: 10vw;
+            border-radius: 10px;
+            font-size: 16px;
+            z-index: 100;
+        }
+        .instructionsContainer {
+            position: relative;
+            width: 80%;
+            left: 10%;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+        }
+        .instructions ol{
+            text-align: left;
+        }
+        .begin{
+            background-image: url(img/BeginImg.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 10vw;
+            width: 100%;
+            z-index: 200;
+        }
+        .hide {
+            display: none;
+            transition: all 1s;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="instructions" id="arInstruct">
+      <div class="instructionsContainer">
+        Instructions:
+        <ol>
+          <li>Look around campus for the targets</li>
+          <li>Click on each target on your screen</li>
+          <li>Interact with the extra content!</li>
+        </ol>
+        Click begin to start your adventure!
+        <div class="begin" id="begin" onclick="return closeRules();"></div>
+      </div>
+    </div>
+    <a-scene vr-mode-ui="enabled: false" preloader arjs='debugUIEnabled:false;'>
+      <!--MARKER IMAGES-->
+      <a-assets>
+        <img id="talmageM" src="img/talmageMarker.png"/>
+        <img id="jsbM" src="img/jsbMarker.png"/>
+        <img id="bensonM" src="img/bensonMarkerAR.png"/>
+        <img id="statueM" src="img/byStatueMarker.png"/>
+        <img id="cannonM" src="img/cannonMarker.png"/>
+        <img id="fieldhouseM" src="img/fieldhouseMarker.png"/>
+        <img id="grant" src="img/grantMarker.png"/>
+        <img id="jfsbM" src="img/jfsbMarker.png"/>
+        <img id="maeserM" src="img/maeserMarker.png"/>
+        <img id="officesM" src="img/relEdOfficeMarker.png"/>
+        <video id="jsbVid" src="img/AskOfGod.mp4" loop="true" crossorigin></video>
+      </a-assets>
+      <!--MARKERS & POPUPS-->
+      <!--TALMAGE-->
+      <a-marker id="talmage" preset="pattern" type="pattern" url="markers/talmagePattern.patt">
+        <a-entity text="value:James E. Talmage helped produce the 1921 edition of the Doctrine and Covenants; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -2"></a-entity>
+        <a-entity text="value:This edition removed the lectures on faith and added section headings and double-columned pages; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 0"></a-entity>
+        <a-entity text="value:He also wrote Jesus the Christ; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 1"></a-entity>
+        <a-image src="img/jesusTheChrist.jpg" rotation="-45 0 0" height="1.5" width="1.5" position="2 0 1"></a-image>
+      </a-marker>
+      
+      <!--JSB-->
+      <a-marker id="jsb" preset="pattern" type="pattern" url="markers/jsbPattern.patt">
+        <a-video src="img/AskOfGod.mp4" rotation="-45 0 0"></a-video>
+        <a-entity text="value:The JSB open-air atrium features a statue of Joseph Smith receiving the first vision as a 14 year old boy; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -2"></a-entity>
+        <!--<a-plane position='0 0 0' width="2" rotation="-45 0 0" material='src: url(img/AskOfGod.mp4)'></a-plane>-->
+      </a-marker>
+      
+      <!--BENSON-->
+      <a-marker id="benson" preset="pattern" type="pattern" url="markers/bensonPattAR.patt">
+        <a-entity text="value:President Benson opened over 50 different countries to missionaries.; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -2"></a-entity>
+        <a-image src="img/churchAfrica.jpg" rotation="-45 0 0" height="2" width="2"></a-image>
+      </a-marker>
+      
+      <!--STATUE-->
+      <a-marker id="statue" preset="pattern" type="pattern" url="markers/byStatuePattern.patt">
+        <a-entity text="value:This statue was originally made to be the &quot;This is the Place&quot; monument; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -1.5"></a-entity>
+        <a-image src="img/thisIs.jpg" rotation="-45 0 0"></a-image>
+        <a-entity text="value:It commemorates the saints' arrival in the Salt Lake Valley; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 1"></a-entity>
+      </a-marker>
+      
+      <!--CANNON-->
+      <a-marker id="cannon" preset="pattern" type="pattern" url="markers/cannonPattern.patt">
+        <a-entity text="value:At the beginning of every football game they fire off the George Q. Cannon; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -2"></a-entity>
+        <a-image src="img/GeorgeCannon.jpg" rotation="-45 0 0" position="0 0 -1"></a-image>
+        <a-entity text="value:Cannon helped publish the Nauvoo Times and Seasons where the book of Abraham was first printed; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 1"></a-entity>
+        <a-image src="img/timesAndSeasons.jpg" rotation="-45 0 0" position="0 0 1.5"></a-image>
+      </a-marker>
+      
+      <!--SFH-->
+      <a-marker id="fieldhouse" preset="pattern" type="pattern" url="markers/fieldhousePattern.patt">
+        <a-entity text="value:George Albert Smith documented and marked many places significant to the Church during his ministry; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -4"></a-entity>
+        <a-image src="img/Map.png" rotation="-45 0 0" width="1.5" height="1.5" position="0 0 -1"></a-image>
+        <a-entity text="value:Below(L->R): the Susquehanna, G. A. Smith, the Mormon Oregon Trail ; color:#FFFFFF; shader: msdf; 
+          font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 1"></a-entity>
+        <a-image src="img/Susquehanna.jpg" rotation="-45 0 0" position="-1.5 0 2"></a-image>
+        <a-image src="img/GASmith.jpg" rotation="-45 0 0" position="0 0 2"></a-image>
+        <a-image src="img/OregonTrail.jpg" rotation="-45 0 0" position="1.5 0 2"></a-image>
+      </a-marker>
+      
+      <!--GRANT-->
+      <a-marker id="grant" preset="pattern" type="pattern" url="markers/grantPattern.patt">
+          <a-entity text="value:Heber J. Grant was the last church president to practice polygamy; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -3"></a-entity>
+          <a-entity text="value:Below: Grant with one of his wives and nine daughters; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -1"></a-entity>
+          <a-image src="img/HJGandFamily.jpg" rotation="-45 0 0"></a-image>
+          <a-entity text="value:He dedicated the first temples outside of Utah since Kirtland (Hawaii and Alberta).; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 1"></a-entity>
+          <a-image src="img/laie.jpg" rotation="-45 0 0" position="-1 0 2"></a-image>
+          <a-image src="img/albertaTemple.jpg" rotation="-45 0 0" position="1 0 2"></a-image>
+      </a-marker>
+      
+      <!--JFSB-->
+      <a-marker id="jfsb" preset="pattern" type="pattern" url="markers/jfsbPattern.patt">
+          <a-entity text="value:Joseph Fielding Smith is the son of Hyrum Smith. He was born while his father was in Liberty jail.; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -2"></a-entity>
+          <a-entity text="value:He standardized the ages for the Aaronic priesthood quorums:; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 0"></a-entity>
+          <a-entity text="value:Priest: 16, Teacher: 14, Deacon: 12; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 1"></a-entity>
+          <a-image src="img/priesthood.jpg" rotation="-45 0 0" position="0 0 2"></a-image>
+      </a-marker>
+      
+      <!--MAESER-->
+      <a-marker id="maeser" preset="pattern" type="pattern" url="markers/maeserPattern.patt">
+          <a-entity text="value:1876 – Karl G. Maeser is the sole teacher and the sole principal of BYA.; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -2"></a-entity>
+          <a-image src="img/bya.jpg" rotation="-45 0 0" position="0 0 2"></a-image>
+      </a-marker>
+      
+      <!--RELED-->
+      <a-marker id="offices" preset="pattern" type="pattern" url="markers/REOfficePattern.patt">
+          <a-entity text="value:The religion offices are in the JSB. They are the center of religious education.; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 -2"></a-entity>
+          <a-entity text="value:Originally religion was taught in every class by every professor, but was separated into its final form in 1983; color:#FFFFFF; shader: msdf; 
+            font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/giveyouglory/GiveYouGlory.json;" scale="5 5 5" rotation="-45 0 0" position="0 0 0"></a-entity>
+          <a-image src="img/reled.jpg" rotation="-45 0 0" position="0 0 2"></a-image>
+      </a-marker>
+      
+      <a-entity camera>
+        <a-entity cursor="fuse: false; rayOrigin: mouse;"  ></a-entity>
+      </a-entity>
+    </a-scene>
+    <script>
+      var instructions = document.getElementById("arInstruct");
+      var begin = document.getElementById("begin");
+      var jsbVideo = document.getElementById("jsbVideo");
+    
+      function closeRules(){
+        console.log("Close rules");
+        instructions.classList.toggle("arInstruct");
+        instructions.classList.toggle("hide");
+        return true;
+      }
+      AFRAME.registerComponent('jsb', {
+          init: function () {
+            this.toggle = false;
+            this.jsbVid = document.querySelector("#jsbVid")
+            this.jsbVid.pause()
+        },
+        tick:function(){
+           if(this.el.object3D.visible == true){
+             if(!this.toggle){
+               this.toggle = true;
+               this.jsbVid.play();
+            }
+          }else{
+            this.toggle = false;
+            this.jsbVid.pause();
+          }
+         }
+        });
+    </script>
+  </body>
+</html>
+<!--
+TO DEBUG:
+*JSB VIDEO
+
+https://rsc.byu.edu/review/organizing-religious-education-byu
+-->
